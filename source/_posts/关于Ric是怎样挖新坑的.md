@@ -4,12 +4,12 @@ date: 2022-03-22 10:06:21
 Author: Ricardo2001zg
 tags: Project
 ---
-# 概述
+## 概述
 今天上班刚好要用到这个内容，又水一篇。
 Windows 环境下已写好 bat 附于网站上。
-Link:[new_project_ricardo2001zg.bat](https://miao.ricardo2001zg.com/)
+Link:[new_project_ricardo2001zg.bat](https://miao.ricardo2001zg.com/2022/03/22/%E5%85%B3%E4%BA%8ERic%E6%98%AF%E6%80%8E%E6%A0%B7%E6%8C%96%E6%96%B0%E5%9D%91%E7%9A%84/new_project_ricardo2001zg.bat)
 用法：新项目的**空文件夹**下**双击使用**，使用前请确保知晓每一行命令含义。
-# 生成目录结构
+## 生成目录结构
 - Assets
 - DevSourceCode
     - Internal
@@ -19,7 +19,7 @@ Link:[new_project_ricardo2001zg.bat](https://miao.ricardo2001zg.com/)
 - ProjectData
 - TempData
 - TestSourceCode
-## 生成目录结构说明
+### 生成目录结构说明
 ```
 Documents
 ```
@@ -54,7 +54,7 @@ Products
 项目的其他文件夹。
 TempData 目录用于存放临时数据或笔记，特别标注**临时用，不存放重要数据**。
 Products 目录用于存放项目对外发布的二进制文件等产物。
-# .gitignore 特别说明
+## .gitignore 特别说明
 如果使用 git 进行项目管理，建议在 .gitignore 文件中添加以下文件夹。
 ```
 # .gitignore
