@@ -1,24 +1,24 @@
-:: é¡¹ç›®æ¥æº
-echo "ã€Šå…³äºRicæ˜¯æ€æ ·æŒ–æ–°å‘çš„ã€‹"
-echo "Author: Ricardo2001zg"
-echo "https://miao.ricardo2001zg.com/"
-:: é¡¹ç›®æ–‡æ¡£
+:: ÏîÄ¿À´Ô´
+@echo ¡¶¹ØÓÚRicÊÇÔõÑùÍÚĞÂ¿ÓµÄ¡·
+@echo Author: Ricardo2001zg
+@echo https://miao.ricardo2001zg.com/
+:: ÏîÄ¿ÎÄµµ
 mkdir Documents
-:: é¡¹ç›®ä»£ç 
+:: ÏîÄ¿´úÂë
 mkdir DevSourceCode
 mkdir DevSourceCode\Internal
 mkdir DevSourceCode\Publish
 mkdir TestSourceCode
 mkdir TestSourceCode\Internal
 mkdir TestSourceCode\Publish
-:: é¡¹ç›®èµ„äº§
+:: ÏîÄ¿×Ê²ú
 mkdir Assets
 mkdir ProjectData
 mkdir TempData
-:: é¡¹ç›®äº§ç‰©
+:: ÏîÄ¿²úÎï
 mkdir Products
-echo "æ³¨é‡Šï¼šå»ºè®®è‡ªè¡Œä¿®æ”¹ .gitignore æ–‡ä»¶å†…å®¹"
-echo "è¯¦æƒ…è§åŸæ–‡æˆ– bat å†…æ³¨é‡Š"
+@echo ×¢ÊÍ£º½¨Òé×ÔĞĞĞŞ¸Ä .gitignore ÎÄ¼şÄÚÈİ
+@echo ÏêÇé¼ûÔ­ÎÄ»ò bat ÄÚ×¢ÊÍ
 :: .gitignore
 :: # Project
 :: #
