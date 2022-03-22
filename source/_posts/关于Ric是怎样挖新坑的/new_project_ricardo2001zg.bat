@@ -1,7 +1,7 @@
 :: 项目来源
 @echo 《关于Ric是怎样挖新坑的》
 @echo Author: Ricardo2001zg
-@echo https://miao.ricardo2001zg.com/
+@echo https://miao.ricardo2001zg.com/2022/03/22/关于Ric是怎样挖新坑的/
 :: 项目文档
 mkdir Documents
 :: 项目代码
