@@ -7,6 +7,7 @@ tags: Project
 ## 概述
 今天上班刚好要用到这个内容，又水一篇。
 Windows 环境下已写好 bat 附于网站上(**编码: GB2312**)。
+下载后**默认换行模式为LF**，**执行前请手动替换为CRLF**!!!
 Link: [new_project_ricardo2001zg.bat](https://miao.ricardo2001zg.com/2022/03/22/%E5%85%B3%E4%BA%8ERic%E6%98%AF%E6%80%8E%E6%A0%B7%E6%8C%96%E6%96%B0%E5%9D%91%E7%9A%84/new_project_ricardo2001zg.bat)
 用法：新项目的**空文件夹**下**双击使用**，使用前请确保知晓每一行命令含义。
 
