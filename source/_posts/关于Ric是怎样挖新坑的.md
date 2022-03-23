@@ -19,6 +19,8 @@ Link: [new_project_ricardo2001zg.bat](https://miao.ricardo2001zg.com/2022/03/22/
 - Documents
 - Products
 - ProjectData
+    - DevConfig
+        - vcxproj
 - TempData
 - TestSourceCode
 
@@ -49,10 +51,12 @@ TestSourceCode\Publish
 ```
 Assets
 ProjectData
+ProjectData\DevConfig
+ProjectData\DevConfig\vcxproj
 ```
 项目的资源与数据文件夹。
 Assets 目录一般情况下，用于存放美术资源。
-ProjectData 目录存放项目数据库、项目管理进度等项目数据资源。
+ProjectData 目录存放项目配置文件、项目数据库、项目管理进度等项目数据资源。
 
 ```
 TempData
