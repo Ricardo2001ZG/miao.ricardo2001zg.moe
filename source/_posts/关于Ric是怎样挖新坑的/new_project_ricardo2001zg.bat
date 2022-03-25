@@ -14,6 +14,8 @@ mkdir TestSourceCode\Publish
 :: 项目资产
 mkdir Assets
 mkdir ProjectData
+mkdir ProjectData\DevConfig
+mkdir ProjectData\DevConfig\vcxproj
 mkdir TempData
 :: 项目产物
 mkdir Products
