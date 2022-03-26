@@ -26,6 +26,7 @@ mkdir Products
 :: #
 :: Assets/
 :: Products/
-:: ProjectData/
+:: ProjectData/*
+:: !ProjectData/DevConfig/
 :: TempData/
 pause
