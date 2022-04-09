@@ -8,6 +8,7 @@ mkdir Documents
 mkdir DevSourceCode
 mkdir DevSourceCode\Internal
 mkdir DevSourceCode\Publish
+mkdir DevSourceCode\Publish\3rdParty
 mkdir TestSourceCode
 mkdir TestSourceCode\Internal
 mkdir TestSourceCode\Publish
