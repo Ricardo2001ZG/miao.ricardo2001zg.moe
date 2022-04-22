@@ -4,35 +4,42 @@ const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
   "assets/AssetManifest.json": "2efbb41d7877d10aac9d091f58ccd7b9",
-"assets/FontManifest.json": "01700ba55b08a6141f33e168c4a6c22f",
-"assets/fonts/MaterialIcons-Regular.ttf": "56d3ffdef7a25659eab6a68a3fbfaf16",
-"assets/NOTICES": "db9d449f14101e5acb19ae606ba8391a",
-"assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "115e937bb829a890521f72d2e664b632",
+"assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57",
+"assets/fonts/MaterialIcons-Regular.otf": "95db9098c58fd6db106f1116bae85a0b",
+"assets/NOTICES": "84fea693b529c6960a716b39076d72e0",
+"assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "6d342eb68f170c97609e9da345464e5e",
+"canvaskit/canvaskit.js": "c2b4e5f3d7a3d82aed024e7249a78487",
+"canvaskit/canvaskit.wasm": "4b83d89d9fecbea8ca46f2f760c5a9ba",
+"canvaskit/profiling/canvaskit.js": "ae2949af4efc61d28a4a80fffa1db900",
+"canvaskit/profiling/canvaskit.wasm": "95e736ab31147d1b2c7b25f11d4c32cd",
 "favicon.png": "5dcef449791fa27946b3d35ad8803796",
+"flutter.js": "0816e65a103ba8ba51b174eeeeb2cb67",
 "icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
-"index.html": "e3f27905032fbd055fb234af33abf07d",
-"/": "e3f27905032fbd055fb234af33abf07d",
-"main.dart.js": "ac0a501e4298d69c38f1fb396c2351e7",
-"manifest.json": "f68f3f2dc8a90287c0d1ab1b3bcb34dc"
+"icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
+"icons/Icon-maskable-512.png": "301a7604d45b3e739efc881eb04896ea",
+"index.html": "47491fa1882618e5dff1ba35067b2dc6",
+"/": "47491fa1882618e5dff1ba35067b2dc6",
+"main.dart.js": "8342e0f15a2ebeb0e09661ddca633df8",
+"manifest.json": "f3024a0eac14e0b1f0b2d43baff8d4e1",
+"version.json": "e343a100b6301964b42d3a2b98dac53a"
 };
 
 // The application shell files that are downloaded before a service worker can
 // start.
 const CORE = [
-  "/",
-"main.dart.js",
+  "main.dart.js",
 "index.html",
-"assets/LICENSE",
+"assets/NOTICES",
 "assets/AssetManifest.json",
 "assets/FontManifest.json"];
-
 // During install, the TEMP cache is populated with the application shell files.
 self.addEventListener("install", (event) => {
+  self.skipWaiting();
   return event.waitUntil(
     caches.open(TEMP).then((cache) => {
-      // Provide a no-cache param to ensure the latest version is downloaded.
-      return cache.addAll(CORE.map((value) => new Request(value, {'cache': 'no-cache'})));
+      return cache.addAll(
+        CORE.map((value) => new Request(value, {'cache': 'reload'})));
     })
   );
 });
@@ -47,7 +54,6 @@ self.addEventListener("activate", function(event) {
       var tempCache = await caches.open(TEMP);
       var manifestCache = await caches.open(MANIFEST);
       var manifest = await manifestCache.match('manifest');
-
       // When there is no prior manifest, clear the entire cache.
       if (!manifest) {
         await caches.delete(CACHE_NAME);
@@ -61,7 +67,6 @@ self.addEventListener("activate", function(event) {
         await manifestCache.put('manifest', new Response(JSON.stringify(RESOURCES)));
         return;
       }
-
       var oldManifest = await manifest.json();
       var origin = self.location.origin;
       for (var request of await contentCache.keys()) {
@@ -99,24 +104,33 @@ self.addEventListener("activate", function(event) {
 // The fetch handler redirects requests for RESOURCE files to the service
 // worker cache.
 self.addEventListener("fetch", (event) => {
+  if (event.request.method !== 'GET') {
+    return;
+  }
   var origin = self.location.origin;
   var key = event.request.url.substring(origin.length + 1);
   // Redirect URLs to the index.html
-  if (event.request.url == origin || event.request.url.startsWith(origin + '/#')) {
+  if (key.indexOf('?v=') != -1) {
+    key = key.split('?v=')[0];
+  }
+  if (event.request.url == origin || event.request.url.startsWith(origin + '/#') || key == '') {
     key = '/';
   }
-  // If the URL is not the the RESOURCE list, skip the cache.
+  // If the URL is not the RESOURCE list then return to signal that the
+  // browser should take over.
   if (!RESOURCES[key]) {
-    return event.respondWith(fetch(event.request));
+    return;
+  }
+  // If the URL is the index.html, perform an online-first request.
+  if (key == '/') {
+    return onlineFirst(event);
   }
   event.respondWith(caches.open(CACHE_NAME)
     .then((cache) =>  {
       return cache.match(event.request).then((response) => {
         // Either respond with the cached resource, or perform a fetch and
-        // lazily populate the cache. Ensure the resources are not cached
-        // by the browser for longer than the service worker expects.
-        var modifiedRequest = new Request(event.request, {'cache': 'no-cache'});
-        return response || fetch(modifiedRequest).then((response) => {
+        // lazily populate the cache.
+        return response || fetch(event.request).then((response) => {
           cache.put(event.request, response.clone());
           return response;
         });
@@ -128,12 +142,13 @@ self.addEventListener("fetch", (event) => {
 self.addEventListener('message', (event) => {
   // SkipWaiting can be used to immediately activate a waiting service worker.
   // This will also require a page refresh triggered by the main worker.
-  if (event.message == 'skipWaiting') {
-    return self.skipWaiting();
+  if (event.data === 'skipWaiting') {
+    self.skipWaiting();
+    return;
   }
-
-  if (event.message = 'downloadOffline') {
+  if (event.data === 'downloadOffline') {
     downloadOffline();
+    return;
   }
 });
 
@@ -150,10 +165,32 @@ async function downloadOffline() {
     }
     currentContent[key] = true;
   }
-  for (var resourceKey in Object.keys(RESOURCES)) {
+  for (var resourceKey of Object.keys(RESOURCES)) {
     if (!currentContent[resourceKey]) {
-      resources.add(resourceKey);
+      resources.push(resourceKey);
     }
   }
-  return Cache.addAll(resources);
+  return contentCache.addAll(resources);
+}
+
+// Attempt to download the resource online before falling back to
+// the offline cache.
+function onlineFirst(event) {
+  return event.respondWith(
+    fetch(event.request).then((response) => {
+      return caches.open(CACHE_NAME).then((cache) => {
+        cache.put(event.request, response.clone());
+        return response;
+      });
+    }).catch((error) => {
+      return caches.open(CACHE_NAME).then((cache) => {
+        return cache.match(event.request).then((response) => {
+          if (response != null) {
+            return response;
+          }
+          throw error;
+        });
+      });
+    })
+  );
 }
