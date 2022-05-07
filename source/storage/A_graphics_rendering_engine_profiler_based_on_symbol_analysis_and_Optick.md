@@ -8,7 +8,7 @@
 
 另一种常见方式是通过在游戏内自己写一套性能采集的内嵌代码，对原有代码进行插入修改并采集数据。这种方式具有便利性与灵活性，但往往以降低原有代码的完整性与可维护性为代价，而且不具备跨项目、跨平台的移植性。
 
-基于上述传统性能检测存在的问题，本文对两个方向进行了研究改良。
+基于上述传统性能检测方式存在的问题，本文对两个方向进行了研究改良。
 
 对于外部通用工具存在的授权、定制等局限性，本文采用开源软件Optick进行补充。Optick是一款用于游戏的超轻量级C++性能分析器，提供计时采样、项目数据标签定制等功能。其开源特性可以较好地支持软件代码结合至现有项目中，提供私有数据分析与深度定制功能。
 
@@ -24,7 +24,23 @@
 
 ## A graphics rendering engine profiler based on symbol analysis and Optick
 
-Abstract: 
+Abstract: The online operation of 3D game projects needs to face various complex software and hardware environments, and the game performance varies. In this case, it is very challenging and necessary to analyze the performance and optimization of the user's graphics rendering engine in real time.
+
+Taking the common analysis methods on the market as an example, most of them are performed by users or developers installing external general tools, such as Intel VTune. This requires not only the authorization of the user, but also the authorization and certification of the manufacturer to purchase performance optimization software, and it is impossible to accurately analyze the specific private data inside the positioning engine carry out in-depth customized development and analysis for different projects.
+
+Another common way is to insert and modify the original code and collect data by writing a set of embedded code for performance acquisition in the game. This method is convenient and flexible, but it often comes at the cost of reducing the integrity and maintainability of the original code, and it does not have cross-project and cross-platform portability.
+
+Based on the problems existing in the above-mentioned traditional performance detection methods, this paper has carried out research and improvement in two directions.
+
+For the limitations of authorization and customization of external general tools, this article uses the open source software Optick to supplement. Optick is an super-lightweight C++ performance analyzer for games that provides timing sampling, item data label customization, and more. Its open source feature can better support the integration of software codes into existing projects, and provide private data analysis and deep customization functions.
+
+For the defects of the embedded analysis code, this paper adopts the form of dynamic binary instrumentation to make up for it.
+
+Finally, on the basis of improvement, I have developed a binary injection technology based on dynamic instrumentation after symbol table parsing, and develops a detection tool for performance analysis and optimization of graphics rendering engine based on Optick.
+
+The research results of this paper have been applied in "JX3", one of the online projects of Season Games, a subsidiary of Kingsoft Inc., and the game experience of many users has been greatly improved.
+
+With the support of the research results above, the project has carried out targeted analysis on engine rendering threads and individual scenes with poor performance, and improved product quality.
 
 Keywords: Measurement    Performance Analysis    Graphics Rendering
 
@@ -40,8 +56,8 @@ Keywords: Measurement    Performance Analysis    Graphics Rendering
             - 2.2.1.1 算法分析功能原理解析
             - 2.2.1.2 VTune在特定分析场景下的局限性
         - 2.2.2 内嵌性能分析代码技术
-            - 2.1.3.1 基于时间的函数耗时统计原理与实现
-            - 2.1.3.2 内嵌性能采集代码在生产环境中的缺陷
+            - 2.2.2.1 基于时间的函数耗时统计原理与实现
+            - 2.2.2.2 内嵌性能采集代码在生产环境中的缺陷
 - 3.研究与实践
     - 3.1 Optick 对于 VTune 的工程实践补充
         - 3.1.1 实践改进设计
@@ -58,7 +74,7 @@ Keywords: Measurement    Performance Analysis    Graphics Rendering
             - 3.2.1.2 实践效果——以DrawCall调用数拦截统计为例
         - 3.2.3 符号表调用
             - 3.2.3.1 符号文件介绍
-            - 3.2.3.2 实践效果——以KG_PrintLog函数外部调用为例
+            - 3.2.3.2 实践效果——以PrintLog函数外部调用为例
     - 3.3 基于符号表解析后动态注入的性能数据采集技术
         - 3.3.1 综合改进设计
         - 3.3.2 符号表解析与动态注入并结合统计技术
@@ -142,12 +158,6 @@ Keywords: Measurement    Performance Analysis    Graphics Rendering
 
 除对原有代码的干扰外，生产环境中插入的性能采集代码，会在一定程度上影响图形渲染引擎的工作效率。以VTune自身的数据展示为例，其性能开销程度在 3-5% 。通用采集工具的大规模采集性能影响较大，而小规模的测试代码重复插入会使开发人员难以维护，对于每个测试点都要进行手动嵌入测试代码，其工程量较大。
 
-
-
-TODO: review
-
-
-
 ### 3.研究与实践
 
 ### 3.1 Optick 对于 VTune 的工程实践补充
@@ -156,9 +166,9 @@ TODO: review
 
 本文采用开源软件 Optick 对 Intel VTune 进行了补充，对针对性性能分析提供了较好的实践。Optick 是一款用于游戏的超轻量级 C++ 分析器，提供了包括采样在内的高效性能分析与优化所需的必要工具[6]。
 
-Optick基于时间戳进行耗时统计，但与VTune的通用采集不同，其采集需要在代码内调用相关接口。在实践中，接口以C++ 代码宏在需采样函数中插入的形式调用。与通用采集和插入性能采集代码相比，降低了通用采集时的性能开销，仅针对指定函数进行采样。同时，仅需一行代码的调用宏，也提高了测试代码的可维护性。
+Optick 基于时间戳进行耗时统计，但与 VTune 的通用采集不同，其采集需要在代码内调用相关接口。在实践中，接口以 C++ 代码宏在需采样函数中插入的形式调用。与通用采集和插入性能采集代码相比，降低了通用采集时的性能开销，仅针对指定函数进行采样。同时，仅需一行代码的调用宏，也提高了测试代码的可维护性。
 
-除具有性能与可维护性优势以外，Optick也针对工程内部参数提供了 tags 标记的功能。开启标记功能后，可将自定义数据写入当前宏的采集数据中。对于通用工具难以采集的引擎私有数据，可使用该功能进行数据记录。
+除具有性能与可维护性优势以外，Optick也针对工程内部参数提供了 Tags 标记的功能。开启标记功能后，可将自定义数据写入当前宏的采集数据中。对于通用工具难以采集的引擎私有数据，可使用该功能进行数据记录。
 
 ### 3.1.2 函数耗时统计图表
 
@@ -218,7 +228,7 @@ Detours 库是一个在 Windows 系统环境中用于监视和检测 API 调用�
 
 根据 Detours 库提供的相关特性，可以通过在拦截预处理与后处理中执行性能测量代码，取代内嵌代码方案。所有的性能测量代码均在项目外部编写，并通过 Detours 库拦截目标函数。
 
-以 DrawCall 调用数统计为例，可以很好的应用该特性。DrawCall 是指在图形渲染引擎中调用图形API的绘制指令，向图形硬件设备发送绘制命令的一次函数调用，如 DirectX 图形 API 中的 DrawIndexed 函数等。统计该函数的调用次数，可以通过拦截预处理，通过一个全局变量记录单帧中的调用次数，并在调用中累加。在使用 DirectX 图形 API 的图形渲染引擎中，单帧的结束以 IDXGISwapChain::Present 函数为标记。该函数向系统指示，将渲染图像结果呈现给用户。因此，拦截该函数后，在该函数的预处理中查询 Drawcall 的统计变量，可以得到当前渲染帧的 DrawCall 调用数。
+以 DrawCall 调用数统计为例，可以很好的应用该特性。DrawCall 是指在图形渲染引擎中调用图形API的绘制指令，向图形硬件设备发送绘制命令的一次函数调用，如 DirectX 图形 API 中的 DrawIndexed 函数等。统计该函数的调用次数，可以通过拦截预处理，通过一个全局变量记录单帧中的调用次数，并在调用中累加。在使用 DirectX 图形 API 的图形渲染引擎中，单帧的结束以 IDXGISwapChain::Present 函数为标记。该函数向系统指示，将渲染图像结果呈现给用户。因此，拦截该函数后，在该函数的预处理中查询 Drawcall 的统计变量并清空，可以得到当前渲染帧的 DrawCall 调用数。
 
 ### 3.2.3 符号表调用
 
@@ -230,11 +240,11 @@ Detours 库是一个在 Windows 系统环境中用于监视和检测 API 调用�
 
 在 Windows 系统环境下，符号文件通常以.pdb为后缀的程序数据库文件的形式存在，可在编译时生成，其内部保存了程序的符号信息。
 
-### 3.2.3.2 实践效果——以KG_PrintLog函数外部调用为例
+### 3.2.3.2 实践效果——以PrintLog函数外部调用为例
 
 关于 Windows 系统环境下的符号表操作，可使用系统头文件 DbgHelp.h 进行相关操作[9]。在注入代码初始化时，需要调用头文件中的 SymInitialize 函数进行符号处理程序初始化。随后使用 SymFromName 函数进行函数名称查询，该函数返回以 SYMBOL_INFO 结构体类型的函数符号信息。通过该类型的数据，可以查询函数的虚拟地址，并基于此对函数进行调用。
 
-本文在一款图形渲染引擎外部，通过远程线程注入的形式，将代码注入目标进程，并基于符号文件调用上述相关操作，向引擎原有的 KG_PrintLog 函数调用日志写入功能，从外部注入代码执行。外部代码拦截原有的 d3d11.dll 运行库，使用 AMD AGS 库替换引擎原有的 D3D11CreateDevice 函数，通过 AGS 库获取显卡相关信息，并将返回信息通过引擎日志系统写入日志文件中。
+本文在一款图形渲染引擎外部，通过远程线程注入的形式，将代码注入目标进程，并基于符号文件调用上述相关操作，向引擎原有的 PrintLog 函数调用日志写入功能，从外部注入代码执行。外部代码拦截原有的 d3d11.dll 运行库，使用 AMD AGS 库替换引擎原有的 D3D11CreateDevice 函数，通过 AGS 库获取显卡相关信息，并将返回信息通过引擎日志系统写入日志文件中。
 
 [图片](D3D11Wrapper拦截截图)
 
@@ -256,9 +266,7 @@ Detours 库是一个在 Windows 系统环境中用于监视和检测 API 调用�
 
 ### 3.3.2.2 实践效果——以实时动态注入并统计为例
 
-基于上述原理，下图实现了动态注入后进行性能统计的功能。
-
-[图片](PinTool的Optick GUI截图展示，BeginRender以下打码)
+基于上述原理，本文实现了动态注入后进行性能统计的功能。在原有的图形渲染引擎基础上，不内嵌任何性能测量代码，仅通过编译时生成的 Pdb 符号文件，对引擎进行了注入，最终成功测量渲染主要循环函数耗时，并附带各渲染阶段的内部私有数据。
 
 ### 4.研究与实践成果
 
@@ -272,7 +280,7 @@ Detours 库是一个在 Windows 系统环境中用于监视和检测 API 调用�
 
 通过 Optick 的数据浏览器，可以看到在渲染线程中，该 Map 函数执行超过 10 毫秒，且占据了渲染线程中较多的执行时间。同时，该问题在每帧中出现，每帧仅出现一次。根据与正常渲染数据的对比，可以判断该处出现性能异常现象，需要进行针对性分析处理。
 
-经过测试开发部门与引擎开发部门的协调研究，引擎部门针对该处使用到的显存空间进行了一次性申请，改动原有重复申请释放的写入方式，解决了该问题。
+经过测试与开发同事的协调研究，最终针对该处使用到的显存空间进行了一次性申请，改动原有重复申请释放的写入方式，解决了该问题。
 
 ### 4.2 项目总体优化效果提升
 
