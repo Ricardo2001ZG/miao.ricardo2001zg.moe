@@ -1,5 +1,6 @@
 
 # TodoList
 
-1. RoadMap
-2. VScode TodoTree
+1. Arch Linux for RicsLaptop
+2. RoadMap
+3. VScode TodoTree
