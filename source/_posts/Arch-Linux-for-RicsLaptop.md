@@ -109,3 +109,7 @@ Steam
 ArchLinux Wiki 太详细了，抄都不用抄了，对着装就行。
 
 基本上就是 NVIDIA 专有驱动 -> KDE -> Chrome -> 看着 Wiki 和本列表装其他软件。 
+
+整了个记录脚本出来，请不要**真的执行**它。
+
+Downloads: [ricslaptop_install.sh](https://miao.ricardo2001zg.com/storage/ricslaptop_install.sh)
