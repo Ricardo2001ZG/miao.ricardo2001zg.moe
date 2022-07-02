@@ -273,6 +273,7 @@ sudo pacman -S clang
 # Cmake
 sudo pacman -S cmake
 # VulkanSDK Needed
+sudo pacman -S vulkan-devel glfw-wayland glm shaderc
 sudo pacman -S base-devel glm cmake libpng wayland libpciaccess libx11 libxpresent \
 libxcb xcb-util libxrandr xcb-util-keysyms xcb-util-wm python git \
 lz4 zstd python-distlib qt5-base
