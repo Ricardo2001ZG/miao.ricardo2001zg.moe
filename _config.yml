@@ -32,8 +32,8 @@ i18n_dir: :lang
 skip_render: 
   - 'jx3_calc_of_gugugu/index.html'
   - 'jx3_calc_of_gugugu/**'
-  - 'storage/A_graphics_rendering_engine_profiler_based_on_symbol_analysis_and_Optick.md'
-  - 'Master-Plan-Of-Ric/TodoList.md'
+  - 'storage/**'
+  - '_posts/Master-Plan-Of-Ric/TodoList.md'
 # Writing
 new_post_name: :title.md # File name of new posts
 default_layout: post
