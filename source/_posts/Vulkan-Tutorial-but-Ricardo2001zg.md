@@ -17,7 +17,7 @@ It has taken a lot of work to get to this point, but now you finally have a good
 
 所有实践代码均发布于 [Github/Ricardo2001zg/DongTianEngine](https://github.com/Ricardo2001zg/DongTianEngine), 截至至本文时的 commit 版本为 [281bd76](https://github.com/Ricardo2001ZG/DongTianEngine/commit/281bd76f41c9d9db32853724692d28fe201c1a40) 。
 
-本文首发于 [影疏弦断 - Vulkan Tutorial, but Ricardo2001zg!]()，开放转载授权，转载与使用请保留出处。
+本文首发于 [影疏弦断 - Vulkan Tutorial, but Ricardo2001zg!](https://miao.ricardo2001zg.com/2022/10/18/Vulkan-Tutorial-but-Ricardo2001zg/)，开放转载授权，转载与使用请保留出处。
 
 ## 技术背景与导读
 
@@ -25,7 +25,7 @@ It has taken a lot of work to get to this point, but now you finally have a good
 
 1. DX11龙书中文版 简要阅读过；
 2. [GAMES101](https://www.bilibili.com/video/BV1X7411F744) 已经学习 Lecture 08 Shading 2 (Shading, Pipeline and Texture Mapping)；
-3. 阅读过《3D游戏编程大师技巧》的上册；对渲染流程有基础了解；
+3. 阅读过《3D游戏编程大师技巧》的上册，对渲染流程有基础了解；
 4. 没有学习过 [GAMES104](https://www.bilibili.com/video/BV1oU4y1R7Km)。
 
 学习该教程的过程中，深刻体会了该教程的冗长与繁杂，但是全流程概述确实如此。对此，我建议阅读该教程的读者，可以自行对教程的每一章节进行拆分与原理思考，降低学习难度。同时建议与其他图形 API 教程进行交叉阅读，并以 GAMES 101 和 104 作为学习辅助。
