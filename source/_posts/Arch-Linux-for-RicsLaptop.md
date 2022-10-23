@@ -12,18 +12,6 @@ tags:
 
 ## 系统环境
 
-**当前环境：**
-
-版本	Windows 11 专业工作站版
-
-版本	21H2
-
-安装日期	2022/2/27
-
-操作系统版本	22000.793
-
-体验	Windows 功能体验包 1000.22000.793.0
-
 **目标环境：**
 
 版本	Arch Linux (Lastest version)
@@ -113,3 +101,9 @@ ArchLinux Wiki 太详细了，抄都不用抄了，对着装就行。
 整了个记录脚本出来，请不要**真的执行**它。
 
 Downloads: [ricslaptop_install.sh](https://miao.ricardo2001zg.com/storage/ricslaptop_install.sh)
+
+## 更新 2022-10-23 08:52:32
+
+经过一段时间的测试，现在可以正式执行多系统跨平台开发的庞大计划。系统整体基于 Arch Linux，并搭载 qemu/kvm 虚拟机，对 Windows、Linux、MacOS 进行虚拟化模拟。（MacOS 虚拟化具有潜在法律问题，本文仅供学习使用，请勿用于生产环境）
+
+
