@@ -106,4 +106,10 @@ Downloads: [ricslaptop_install.sh](https://miao.ricardo2001zg.com/storage/ricsla
 
 经过一段时间的测试，现在可以正式执行多系统跨平台开发的庞大计划。系统整体基于 Arch Linux，并搭载 qemu/kvm 虚拟机，对 Windows、Linux、MacOS 进行虚拟化模拟。（MacOS 虚拟化具有潜在法律问题，本文仅供学习使用，请勿用于生产环境）
 
-
+[ ]TODO: 1. Intel 9560 passthrough
+[ ]TODO: 2. WinServer2022 Router(NAT)
+[ ]TODO: 3. Host net tap device
+[ ]TODO: 4. Host SSH Settings
+[ ]TODO: 5. Win11Work Settings
+[ ]TODO: 6. OSX-KVM(Local)
+[ ]TODO: 7. Intel GVT-d(passthrough)
