@@ -106,10 +106,30 @@ Downloads: [ricslaptop_install.sh](https://miao.ricardo2001zg.com/storage/ricsla
 
 经过一段时间的测试，现在可以正式执行多系统跨平台开发的庞大计划。系统整体基于 Arch Linux，并搭载 qemu/kvm 虚拟机，对 Windows、Linux、MacOS 进行虚拟化模拟。（MacOS 虚拟化具有潜在法律问题，本文仅供学习使用，请勿用于生产环境）
 
-[ ]TODO: 1. Intel 9560 passthrough
-[ ]TODO: 2. WinServer2022 Router(NAT)
-[ ]TODO: 3. Host net tap device
-[ ]TODO: 4. Host SSH Settings
-[ ]TODO: 5. Win11Work Settings
-[ ]TODO: 6. OSX-KVM(Local)
+[x]TODO: 1. Intel 9560 passthrough
+
+参考资料：[PCI_passthrough_via_OVMF_(简体中文)](https://wiki.archlinux.org/title/PCI_passthrough_via_OVMF_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
+
+[x]TODO: 2. Host virtual network
+
+参考资料：[Linux虚拟网络设备之bridge(桥)](https://segmentfault.com/a/1190000009491002)
+
+[x]TODO: 3. Host SSH and NetWork Settings
+
+[x]TODO: 4. Win11Work Settings
+
+[x]TODO: 5. WinServer2022 Router(NAT)
+
+设置完 NAT 服务以后记得设置 DNS 服务器，不然配置出来的网络也是挂的。
+
+参考资料: [事件 407 和 408 在 DNS 服务器事件日志中报告](https://learn.microsoft.com/zh-cn)
+
+无法连接套接字 警告可忽略，Linux端的网桥配置好网关即可(KDE 的 network manager 设置网关通过设置 ip route 生效)
+
+[x]TODO: 6. OSX-KVM
+
+[ ]TODO: 7. NVIDIA passthrough
+
 [ ]TODO: 7. Intel GVT-d(passthrough)
+
+需要导出 VBIOS 中的 GOP 驱动并在 kvm 中加载。
